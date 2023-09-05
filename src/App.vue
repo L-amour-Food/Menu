@@ -3,7 +3,8 @@ import { onMounted, reactive, computed } from 'vue'
 
 const data = reactive({
   current: null,
-  loaded: false
+  loaded: false,
+  titre: ''
 });
 onMounted(() => {
   console.log('mounted!');
@@ -13,6 +14,12 @@ onMounted(() => {
       for (let repas of menu) {
         if (!data.current && isToday(repas.time)) {
           data.current = repas
+          data.titre = 'Menu du jour';
+          break;
+        }
+        if (!data.current && isTomorrow(repas.time)) {
+          data.current = repas
+          data.titre = 'Menu de demain';
           break;
         }
       }
@@ -44,22 +51,30 @@ const style = computed(() => {
 
         <template v-if="data.current">
           <p class="title has-text-black is-5">
-            Menu du jour
+            {{ data.titre }}
           </p>
           <p class="subtitle has-text-black is-7" v-html="data.current.description">
           </p>
         </template>
         <template v-else>
-          <p class="title has-text-black">Pas de service aujourd'hui !</p>
+          <p class="subtitle has-text-black">Menu en cours de préparation ... </p>
         </template>
 
       </div>
       <div>
         <template v-if="data.current">
-          <p class="mb-2"><small>Réserver avant 11h sur</small></p>
-          <div class="qr"><img src="/qr.png"></div>
-          <a href="https://lamourfood.Fr" class="title is-6"><u>lamourfood.fr</u></a>
+          <template v-if="!data.current.disponible">
+            <b class="off"><small>Réserveration terminée</small></b>
+          </template>
+          <template v-if="data.current.disponible">
+            <p><small>Réserver avant 11h30 sur</small></p>
+          </template>
         </template>
+        <template v-else>
+          <p><small>Plus d'infos sur</small></p>
+        </template>
+        <div class="qr mt-2"><img src="/qr.png"></div>
+        <a href="https://lamourfood.Fr" class="title is-6"><u>lamourfood.fr</u></a>
       </div>
     </div>
   </div>
@@ -116,11 +131,23 @@ const style = computed(() => {
   justify-content: end;
 }
 
+.off {
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  color: red;
+  text-transform: uppercase;
+  text-shadow: 2px 2px white, -2px -2px white;
+  transform: translate(-50%, -75%) rotate(-45deg);
+}
+
 .menu>div>div:last-of-type {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: end;
+  position: relative;
 }
 
 .menu>div:after {

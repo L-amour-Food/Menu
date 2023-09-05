@@ -42,7 +42,7 @@ const style = computed(() => {
           <p class="title has-text-black">
             Menu du jour
           </p>
-          <p class="subtitle has-text-black">
+          <p class="subtitle has-text-black is-6">
             {{ data.current.nom }}
           </p>
         </template>
@@ -80,6 +80,8 @@ figure {}
 .menu>figure {
   padding: 2em;
   flex: 1;
+  position: relative;
+  z-index: 1;
 }
 
 .menu>div {
@@ -123,6 +125,13 @@ figure {}
 
 }
 .qr {
+  width: 15vw;
+  height: 15vw;
   border: 1em solid white;
+}
+.qr img {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 </style>

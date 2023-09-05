@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>L'amour Food à Bliiida - Le menu</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+
+<body>
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+<script>
+  function isToday(timestamp) {
+    const inputDate = new Date(timestamp * 1000); // Convert to milliseconds
+    const today = new Date();
+
+    return inputDate.getDate() === today.getDate() &&
+      inputDate.getMonth() === today.getMonth() &&
+      inputDate.getFullYear() === today.getFullYear();
+  }
+  function isTomorrow(timestamp) {
+    const inputDate = new Date(timestamp * 1000); // Convert to milliseconds
+    const today = new Date();
+    const tomorrow = new Date(today);
+
+    tomorrow.setDate(today.getDate() + 1);
+
+    return inputDate.getDate() === tomorrow.getDate() &&
+      inputDate.getMonth() === tomorrow.getMonth() &&
+      inputDate.getFullYear() === tomorrow.getFullYear();
+  }
+</script>
+
+</html>

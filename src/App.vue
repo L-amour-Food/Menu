@@ -2,8 +2,8 @@
 import { onMounted, reactive, computed } from 'vue'
 
 const data = reactive({
-  current: false,
-  next: false
+  current: null,
+  loaded: false
 });
 onMounted(() => {
   console.log('mounted!');
@@ -11,22 +11,24 @@ onMounted(() => {
     .then(response => response.json())
     .then(menu => {
       for (let repas of menu) {
-        if (isToday(repas.time)) {
+        if (!data.current && isToday(repas.time)) {
           data.current = repas
-        } else if (isTomorrow(repas.time)) {
-          data.next = repas
-        }
-        if (data.current && data.next) {
-          break
+          break;
         }
       }
+      data.loaded = true;
     })
 })
 
 const style = computed(() => {
-  if (data.current.illustration) {
+  if (!data.loaded) return;
+  if (data.current?.illustration) {
     return {
       'background-image': `url(${data.current.illustration})`,
+    }
+  } else {
+    return {
+      'background-image': `url(/nappe-rouge.webp)`,
     }
   }
 })
@@ -34,16 +36,17 @@ const style = computed(() => {
 
 <template>
   <div class="menu" :style="style">
-    <figure><img src="/logo.png"></figure>
-    <div>
+    <figure></figure>
+
+    <div v-if="data.loaded">
       <div>
+        <figure><img src="/logo.png"></figure>
 
         <template v-if="data.current">
-          <p class="title has-text-black">
+          <p class="title has-text-black is-5">
             Menu du jour
           </p>
-          <p class="subtitle has-text-black is-6">
-            {{ data.current.nom }}
+          <p class="subtitle has-text-black is-7" v-html="data.current.description">
           </p>
         </template>
         <template v-else>
@@ -52,25 +55,32 @@ const style = computed(() => {
 
       </div>
       <div>
-        <span class="title is-5">Réserver avant 11h sur</span>
-        <div class="qr"><img src="/qr.png"></div>
-        <a href="https://lamourfood.Fr" class="title is-5"><u>lamourfood.fr</u></a>
+        <template v-if="data.current">
+          <p class="mb-2"><small>Réserver avant 11h sur</small></p>
+          <div class="qr"><img src="/qr.png"></div>
+          <a href="https://lamourfood.Fr" class="title is-6"><u>lamourfood.fr</u></a>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
-<style scoped>
-figure {}
-
+<style>
 .subtitle {
-  white-space: pre-wrap;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5vw;
+}
+
+.subtitle h3 {
+  font-weight: 700;
+  font-size: 125%;
+  color: #ff406d;
 }
 
 .menu {
   background-size: cover;
   background-position: center center;
-  background-image: url(/nappe-rouge.webp);
   height: 100vh;
   overflow: hidden;
   display: flex;
@@ -84,10 +94,15 @@ figure {}
   z-index: 1;
 }
 
+.menu>figure>img {
+  width: 30vw;
+}
+
 .menu>div {
   padding: 2em;
   position: relative;
   display: flex;
+  gap: 10vw;
 }
 
 .menu>div>* {
@@ -111,7 +126,7 @@ figure {}
 .menu>div:after {
   content: '';
   position: absolute;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 30%, rgba(255, 255, 255, 1) 100%);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 1) 100%);
   left: 0;
   bottom: 0;
   width: 100%;
@@ -119,16 +134,12 @@ figure {}
   z-index: 0;
 }
 
-
-.hero-body {
-  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-
-}
 .qr {
   width: 15vw;
   height: 15vw;
   border: 1em solid white;
 }
+
 .qr img {
   display: block;
   width: 100%;

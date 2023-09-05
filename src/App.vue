@@ -35,7 +35,7 @@ const style = computed(() => {
 
 <template>
   <div class="menu" :style="style">
-    <figure><img src="logo.png"></figure>
+    <figure><img src="/logo.png"></figure>
     <div>
       <div>
 
@@ -54,7 +54,7 @@ const style = computed(() => {
       </div>
       <div>
         <span class="title is-5">Réserver avant 11h sur</span>
-        <div class="qr"><img src="qr.png"></div>
+        <div class="qr"><img src="/qr.png"></div>
         <a href="https://lamourfood.Fr" class="title is-5"><u>lamourfood.fr</u></a>
       </div>
     </div>
@@ -71,7 +71,7 @@ figure {}
 .menu {
   background-size: cover;
   background-position: center center;
-  background-image: url(nappe-rouge.webp);
+  background-image: url(/nappe-rouge.webp);
   height: 100vh;
   overflow: hidden;
   display: flex;

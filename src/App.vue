@@ -7,7 +7,6 @@ const data = reactive({
 });
 onMounted(() => {
   console.log('mounted!');
-  return;
   fetch('https://lamourfood.fr/wp-json/custom/v1/menu')
     .then(response => response.json())
     .then(menu => {

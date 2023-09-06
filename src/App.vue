@@ -12,18 +12,24 @@ onMounted(() => {
     .then(response => response.json())
     .then(menu => {
       for (let repas of menu) {
-        if (!data.current && isToday(repas.time)) {
+        if (isToday(repas.time)) {
+          console.log(repas)
           data.current = repas
           data.titre = 'Menu du jour';
           break;
         }
-        if (!data.current && isTomorrow(repas.time)) {
-          data.current = repas
-          data.titre = 'Menu de demain';
-          break;
+      }
+      if (!data.current) {
+        for (let repas of menu) {
+          if (isTomorrow(repas.time)) {
+            data.current = repas
+            data.titre = 'Menu de demain';
+            break;
+          }
         }
       }
       data.loaded = true;
+
     })
 })
 

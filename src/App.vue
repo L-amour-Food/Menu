@@ -19,7 +19,7 @@ onMounted(() => {
         data.loaded = true;
         return;
       }
-      
+
       for (let repas of menu) {
         if (isToday(repas.time)) {
           data.current = repas
@@ -65,7 +65,7 @@ const style = computed(() => {
 
 <template>
   <video v-if="data.loaded && !data.current" autoplay loop muted
-    src="https://lamourfood.fr/wp-content/uploads/2022/02/lamourfood.mp4?_=1">
+    src="https://lamourfood.fr/wp-content/uploads/2023/09/lamourfood-online-video-cutter.com_.mp4">
 </video>
 
   <div class="menu" :style="style">
@@ -211,6 +211,5 @@ video {
   width: 100vw;
   height: 100vh;
   object-fit: cover;
-  transform: scale(1.1);
 }
 </style>

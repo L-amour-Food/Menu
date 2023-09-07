@@ -3,8 +3,10 @@ import { onMounted, reactive, computed } from 'vue'
 
 const data = reactive({
   current: null,
+  next: null,
   loaded: false,
-  titre: ''
+  titre: '',
+  soustitre: '',
 });
 onMounted(() => {
   console.log('mounted!');
@@ -13,13 +15,20 @@ onMounted(() => {
     .then(menu => {
       for (let repas of menu) {
         if (isToday(repas.time)) {
-          console.log(repas)
           data.current = repas
           data.titre = 'Menu du jour';
+          data.soustitre = 'Pensez à réserver le plus tôt possible, et au plus tard avant 11h30';
           break;
         }
       }
-      if (!data.current) {
+      if (data.current) {
+        for (let repas of menu) {
+          if (isTomorrow(repas.time)) {
+            data.next = repas
+            break;
+          }
+        }
+      } else {
         for (let repas of menu) {
           if (isTomorrow(repas.time)) {
             data.current = repas
@@ -58,12 +67,20 @@ const style = computed(() => {
         <template v-if="data.current">
           <p class="title has-text-black is-5">
             {{ data.titre }}
+            <template v-if="data.soustitre">
+              <br><small style="font-size: 60%;">{{ data.soustitre }}</small>
+            </template>
           </p>
           <p class="subtitle has-text-black is-7" v-html="data.current.description">
           </p>
+          <template v-if="data.current">
+            <div style="color:gray;font-size: smaller;">
+              <small v-html="'<b>Demain</b>: ' + data.next.description.split('\n')[0]"></small>
+            </div>
+          </template>
         </template>
         <template v-else>
-          <p class="subtitle has-text-black">Menu en cours de préparation ... </p>
+          <p class="subtitle has-text-black">Menu en cours de préparation... </p>
         </template>
 
       </div>
@@ -73,7 +90,7 @@ const style = computed(() => {
             <b class="off"><small>Réserveration terminée</small></b>
           </template>
           <template v-if="data.current.disponible">
-            <p><small>Réserver avant 11h30 sur</small></p>
+            <center style="font-size: 70%; line-height: 1;"><b>Réserver à la cantina<br>ou en ligne sur</b></center>
           </template>
         </template>
         <template v-else>

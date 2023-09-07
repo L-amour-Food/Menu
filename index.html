@@ -16,7 +16,8 @@
   function isToday(timestamp) {
     const inputDate = new Date(timestamp * 1000); // Convert to milliseconds
     const today = new Date();
-
+    const currentHour = new Date().getHours();
+    if(currentHour >= 14) return;
     return inputDate.getDate() === today.getDate() &&
       inputDate.getMonth() === today.getMonth() &&
       inputDate.getFullYear() === today.getFullYear();

@@ -2,6 +2,7 @@
 import { onMounted, reactive, computed } from 'vue'
 
 const data = reactive({
+  closed: false,
   current: null,
   next: null,
   loaded: false,
@@ -9,10 +10,16 @@ const data = reactive({
   soustitre: '',
 });
 onMounted(() => {
+  data.closed = document.location.hash.includes('closed');
   console.log('mounted!');
   fetch('https://lamourfood.fr/wp-json/custom/v1/menu')
     .then(response => response.json())
     .then(menu => {
+      if(data.closed) {
+        data.loaded = true;
+        return;
+      }
+      
       for (let repas of menu) {
         if (isToday(repas.time)) {
           data.current = repas

@@ -50,13 +50,17 @@ const style = computed(() => {
     }
   } else {
     return {
-      'background-image': `url(/nappe-rouge.webp)`,
+      // 'background-image': `url(/nappe-rouge.webp)`,
     }
   }
 })
 </script>
 
 <template>
+  <video v-if="data.loaded && !data.current" autoplay loop muted
+    src="https://lamourfood.fr/wp-content/uploads/2022/02/lamourfood.mp4?_=1">
+</video>
+
   <div class="menu" :style="style">
     <figure></figure>
 
@@ -73,14 +77,14 @@ const style = computed(() => {
           </p>
           <p class="subtitle has-text-black is-7" v-html="data.current.description">
           </p>
-          <template v-if="data.current">
+          <template v-if="data.current && data.next">
             <div style="color:gray;font-size: smaller;">
               <small v-html="'<b>Demain</b>: ' + data.next.description.split('\n')[0]"></small>
             </div>
           </template>
         </template>
         <template v-else>
-          <p class="subtitle has-text-black">Menu en cours de préparation... </p>
+          <p class="subtitle has-text-black">À bientôt dans la cantina... </p>
         </template>
 
       </div>
@@ -194,5 +198,12 @@ const style = computed(() => {
   display: block;
   width: 100%;
   height: 100%;
+}
+video {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  transform: scale(1.1);
 }
 </style>

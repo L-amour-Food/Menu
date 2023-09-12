@@ -69,7 +69,6 @@ const style = computed(() => {
 </video>
 
   <div class="menu" :style="style">
-    <figure></figure>
 
     <div v-if="data.loaded">
       <div>
@@ -82,7 +81,7 @@ const style = computed(() => {
               <br><small style="font-size: 60%;">{{ data.soustitre }}</small>
             </template>
           </p>
-          <p class="subtitle has-text-black is-7" v-html="data.current.description">
+          <p class="plats subtitle has-text-black is-7" v-html="data.current.description">
           </p>
           <template v-if="data.current && data.next">
             <div style="color:gray;font-size: smaller;">
@@ -95,63 +94,39 @@ const style = computed(() => {
         </template>
 
       </div>
-      <div>
+      <div class="colonne-qr">
         <template v-if="data.current">
           <template v-if="!data.current.disponible">
             <b class="off"><small>Réserveration terminée</small></b>
           </template>
           <template v-if="data.current.disponible">
-            <center style="font-size: 70%; line-height: 1;"><b>Réserver à la cantina<br>ou en ligne sur</b></center>
+            <p class="texte"><b>Réserver à la cantina<br>ou en ligne sur</b></p>
           </template>
         </template>
         <template v-else>
           <p><small>Plus d'infos sur</small></p>
         </template>
-        <div class="qr mt-2"><img src="/qr.png"></div>
-        <a href="https://lamourfood.Fr" class="title is-6"><u>lamourfood.fr</u></a>
+        <div class="qr"><img src="/qr.png"></div>
+        <a href="https://lamourfood.Fr"><u>lamourfood.fr</u></a>
       </div>
     </div>
   </div>
 </template>
 
 <style>
-.subtitle {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5vw;
-}
 
-.subtitle h3 {
-  font-weight: 700;
-  font-size: 125%;
-  color: #ff406d;
-}
 
-.menu {
-  background-size: cover;
-  background-position: center center;
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.menu>figure {
-  padding: 2em;
-  flex: 1;
-  position: relative;
-  z-index: 1;
-}
 
 .menu>figure>img {
   width: 30vw;
 }
 
 .menu>div {
-  padding: 2em;
+  padding: var(--grande-marge);
   position: relative;
   display: flex;
   gap: 10vw;
+  flex:1;
 }
 
 .menu>div>* {
@@ -195,21 +170,4 @@ const style = computed(() => {
   z-index: 0;
 }
 
-.qr {
-  width: 15vw;
-  height: 15vw;
-  border: 1em solid white;
-}
-
-.qr img {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-video {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-}
 </style>

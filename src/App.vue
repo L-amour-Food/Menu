@@ -3,6 +3,7 @@ import { onMounted, reactive, computed } from 'vue'
 
 const data = reactive({
   closed: false,
+  indisponible: false,
   current: null,
   next: null,
   loaded: false,
@@ -11,11 +12,12 @@ const data = reactive({
 });
 onMounted(() => {
   data.closed = document.location.hash.includes('closed');
+  data.indisponible = document.location.hash.includes('indisponible');
   console.log('mounted!');
   fetch('https://lamourfood.fr/wp-json/custom/v1/menu')
     .then(response => response.json())
     .then(menu => {
-      if(data.closed) {
+      if (data.closed) {
         data.loaded = true;
         return;
       }
@@ -66,13 +68,13 @@ const style = computed(() => {
 <template>
   <video v-if="data.loaded && !data.current" autoplay loop muted
     src="https://lamourfood.fr/wp-content/uploads/2023/09/lamourfood-online-video-cutter.com_.mp4">
-</video>
+  </video>
 
   <div class="menu" :style="style">
 
     <div v-if="data.loaded">
       <div>
-        <figure><img src="/logo.png"></figure>
+        <figure class="logo"><img src="/logo.png"></figure>
 
         <template v-if="data.current">
           <p class="title has-text-black is-5">
@@ -90,15 +92,12 @@ const style = computed(() => {
           </template>
         </template>
         <template v-else>
-          <p class="subtitle has-text-black">À bientôt dans la cantina... </p>
+          <p class="plats">À bientôt dans la cantina... </p>
         </template>
 
       </div>
       <div class="colonne-qr">
         <template v-if="data.current">
-          <template v-if="!data.current.disponible">
-            <b class="off"><small>Réserveration terminée</small></b>
-          </template>
           <template v-if="data.current.disponible">
             <p class="texte"><b>Réserver à la cantina<br>ou en ligne sur</b></p>
           </template>
@@ -106,7 +105,12 @@ const style = computed(() => {
         <template v-else>
           <p><small>Plus d'infos sur</small></p>
         </template>
-        <div class="qr"><img src="/qr.png"></div>
+        <div class="qr">
+          <template v-if="data.indisponible || !data.current.disponible">
+            <span class="off">Réserveration terminée</span>
+          </template>
+          <img src="/qr.png">
+        </div>
         <a href="https://lamourfood.Fr"><u>lamourfood.fr</u></a>
       </div>
     </div>
@@ -114,9 +118,6 @@ const style = computed(() => {
 </template>
 
 <style>
-
-
-
 .menu>figure>img {
   width: 30vw;
 }
@@ -126,7 +127,7 @@ const style = computed(() => {
   position: relative;
   display: flex;
   gap: 10vw;
-  flex:1;
+  flex: 1;
 }
 
 .menu>div>* {
@@ -138,17 +139,6 @@ const style = computed(() => {
   display: flex;
   flex-direction: column;
   justify-content: end;
-}
-
-.off {
-  text-align: center;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  color: red;
-  text-transform: uppercase;
-  text-shadow: 2px 2px white, -2px -2px white;
-  transform: translate(-50%, -75%) rotate(-45deg);
 }
 
 .menu>div>div:last-of-type {
@@ -169,5 +159,4 @@ const style = computed(() => {
   height: 200%;
   z-index: 0;
 }
-
 </style>

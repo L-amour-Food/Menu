@@ -2,8 +2,11 @@
     --marge: 2vw;
     --petite-marge: calc(var(--marge) * 0.5);
     --grande-marge: calc(var(--marge) * 1.5);
+    color:#333;
 }
-
+a {
+    color:#333;
+}
 html,
 body {
     margin: 0;
@@ -27,7 +30,10 @@ h4 {
     margin: 0;
 }
 
+.logo {
+}
 .plats {
+    margin-top: var(--marge);
     display: flex;
     flex-direction: column;
     gap: var(--grande-marge);
@@ -84,8 +90,23 @@ figure img {
     width: calc(100% - (2 * var(--marge)));
     aspect-ratio: 1;
     border: var(--marge) solid white;
+    position: relative;
 }
 
+.off {
+    font-family:'Arial Black';
+    font-weight: bold;
+    font-size: 150%;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: red;
+    text-transform: uppercase;
+    text-shadow: 2px 2px white, -2px -2px white;
+    transform: translate(-50%, -50%) rotate(-35deg);
+  }
+  
 
 .qr img {
     display: block;

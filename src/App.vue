@@ -107,7 +107,7 @@ const style = computed(() => {
         </template>
         <div class="qr">
           <template v-if="data.current && (data.indisponible || !data.current?.disponible)">
-            <span class="off">Réserveration terminée</span>
+            <span class="off">Réservation terminée</span>
           </template>
           <img src="/qr.png">
         </div>

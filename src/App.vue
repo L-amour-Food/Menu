@@ -77,19 +77,20 @@ const style = computed(() => {
         <figure class="logo"><img src="/logo.png"></figure>
 
         <template v-if="data.current">
-          <p class="title has-text-black is-5">
-            {{ data.titre }}
+          <div class="titre">
+            <span>{{ data.titre }}</span>
             <template v-if="data.soustitre">
-              <br><small style="font-size: 60%;">{{ data.soustitre }}</small>
+              <i style="font-size: 60%;">{{ data.soustitre }}</i>
             </template>
-          </p>
-          <p class="plats subtitle has-text-black is-7" v-html="data.current.description">
-          </p>
-          <template v-if="data.current && data.next">
-            <div style="color:gray;font-size: smaller;">
-              <small v-html="'<b>Demain</b>: ' + data.next.description.split('\n')[0]"></small>
-            </div>
-          </template>
+          </div>
+          <div style="font-size: 90%;">
+            <p class="plats subtitle has-text-black is-7" id="description" v-html="data.current.description"></p>
+            <template v-if="data.current && data.next">
+              <div style="color:gray;font-size: smaller;">
+                <small v-html="'<b>Demain</b>: ' + data.next.description.split('\n')[0]"></small>
+              </div>
+            </template>
+          </div>
         </template>
         <template v-else>
           <p class="plats">À bientôt dans la cantina... </p>
@@ -159,4 +160,14 @@ const style = computed(() => {
   height: 200%;
   z-index: 0;
 }
-</style>
+
+#description p {
+  font-size: 80%;
+}
+
+.titre {
+  display: flex;
+  align-items: center;
+  font-size: 60%;
+  gap: 1.5em;
+}</style>

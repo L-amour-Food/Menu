@@ -63,10 +63,17 @@ const style = computed(() => {
     }
   }
 })
+
+const videoWidth = computed(() => {
+  return window.outerWidth
+})
+const videoHeight = computed(() => {
+  return window.outerWidth * 4/5
+})
 </script>
 
 <template>
-  <video v-if="data.loaded && !data.current" autoplay loop muted
+  <video :width="videoWidth" :height="videoHeight" v-if="data.loaded && !data.current" autoplay loop muted
     src="https://lamourfood.fr/wp-content/uploads/2023/09/lamourfood-online-video-cutter.com_.mp4">
   </video>
 

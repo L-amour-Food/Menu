@@ -10,11 +10,19 @@ a {
 }
 
 html,
-body,
-#app {
+body{
     margin: 0;
     padding: 0;
-    height: 100%;
+    height: 100% !important;
+}
+
+#app {
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden;
 }
 
 body {
@@ -121,8 +129,6 @@ figure img {
 }
 
 video {
-    position: fixed;
-    width: 100vw;
-    height: 100%;
-    object-fit: cover;
+    position: absolute;
+    transform: scale(1.01) translateY(-25%);
 }

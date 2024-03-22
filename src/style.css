@@ -130,5 +130,5 @@ figure img {
 
 video {
     position: absolute;
-    transform: scale(1.01) translateY(-25%);
+    transform: scale(1.01);
 }

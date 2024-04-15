@@ -73,9 +73,9 @@ const videoHeight = computed(() => {
 </script>
 
 <template>
-  <video :width="videoWidth" :height="videoHeight" v-if="data.loaded && !data.current" autoplay loop muted
+<!--  <video :width="videoWidth" :height="videoHeight" v-if="data.loaded && !data.current" autoplay loop muted
     src="https://lamourfood.fr/wp-content/uploads/2023/09/lamourfood-online-video-cutter.com_.mp4">
-  </video>
+  </video>-->
 
   <div class="menu" :style="style">
 

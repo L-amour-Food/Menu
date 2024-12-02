@@ -11,27 +11,45 @@
   <div id="app"></div>
   <script type="module" src="/src/main.js"></script>
 </body>
-<script>
-  function isToday(timestamp) {
-    const inputDate = new Date(timestamp * 1000); // Convert to milliseconds
-    const today = new Date();
-    const currentHour = new Date().getHours();
-    if(currentHour >= 14) return;
-    return inputDate.getDate() === today.getDate() &&
-      inputDate.getMonth() === today.getMonth() &&
-      inputDate.getFullYear() === today.getFullYear();
-  }
-  function isTomorrow(timestamp) {
-    const inputDate = new Date(timestamp * 1000); // Convert to milliseconds
-    const today = new Date();
-    const tomorrow = new Date(today);
+<script>function getRefDate() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const refDate = urlParams.get('refDate');
 
-    tomorrow.setDate(today.getDate() + 1);
+  if (refDate && /^\d{8}$/.test(refDate)) {
+    // Convert YYYYMMDD to a Date object
+    const year = parseInt(refDate.substring(0, 4), 10);
+    const month = parseInt(refDate.substring(4, 6), 10) - 1; // Months are 0-based in JS
+    const day = parseInt(refDate.substring(6, 8), 10);
 
-    return inputDate.getDate() === tomorrow.getDate() &&
-      inputDate.getMonth() === tomorrow.getMonth() &&
-      inputDate.getFullYear() === tomorrow.getFullYear();
+    return new Date(year, month, day);
   }
+
+  return new Date(); // Default to today's date
+}
+
+function isToday(timestamp) {
+  const inputDate = new Date(timestamp * 1000); // Convert to milliseconds
+  const today = getRefDate();
+  const currentHour = new Date().getHours();
+  if (currentHour >= 14) return false;
+
+  return inputDate.getDate() === today.getDate() &&
+    inputDate.getMonth() === today.getMonth() &&
+    inputDate.getFullYear() === today.getFullYear();
+}
+
+function isTomorrow(timestamp) {
+  const inputDate = new Date(timestamp * 1000); // Convert to milliseconds
+  const today = getRefDate();
+  const tomorrow = new Date(today);
+
+  tomorrow.setDate(today.getDate() + 1);
+
+  return inputDate.getDate() === tomorrow.getDate() &&
+    inputDate.getMonth() === tomorrow.getMonth() &&
+    inputDate.getFullYear() === tomorrow.getFullYear();
+}
+
 </script>
 
 </html>

@@ -105,7 +105,7 @@ const videoHeight = computed(() => {
 
       </div>
       <div class="colonne-qr">
-        <template v-if="data.current">
+        <template v-if="data.current && data.price">
           <template v-if="data.current.disponible">
             <p class="texte"><b>Réserver à la cantina<br>ou en ligne sur</b></p>
           </template>
@@ -117,7 +117,7 @@ const videoHeight = computed(() => {
           <template v-if="data.current && (data.indisponible || !data.current?.disponible)">
             <span class="off">Réservation terminée</span>
           </template>
-          <img src="/qr.png">
+          <img :src="'https://tools.coworking-metz.fr/qr/?logo=&url='+data.permalink">
         </div>
         <a href="https://lamourfood.Fr"><u>lamourfood.fr</u></a>
       </div>

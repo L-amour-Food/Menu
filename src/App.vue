@@ -117,7 +117,7 @@ const videoHeight = computed(() => {
           <template v-if="data.current && (data.indisponible || !data.current?.disponible)">
             <span class="off">Réservation terminée</span>
           </template>
-          <img :src="'https://tools.coworking-metz.fr/qr/?logo=&url='+data.permalink">
+          <img :src="'https://tools.coworking-metz.fr/qr/?logo=&url='+encodeURI(data.permalink||'https://lamourfood.fr/a-la-carte/')">
         </div>
         <a href="https://lamourfood.Fr"><u>lamourfood.fr</u></a>
       </div>
